@@ -1,5 +1,6 @@
 import assign from 'object-assign';
 import reduce from 'lodash/collection/reduce';
+import all from 'lodash/collection/all';
 import each from 'lodash/collection/each';
 import { EventEmitter } from 'events';
 
@@ -58,7 +59,7 @@ assign(Engine.prototype, EventEmitter.prototype, {
   resetState() {
     this.resetUser();
     this.resetQuestionsStats();
-    this.resentAnswers();
+    this.resetAnswers();
   },
 
   resetUser() {
@@ -86,12 +87,14 @@ assign(Engine.prototype, EventEmitter.prototype, {
     }, {});
   },
 
-  resentAnswers() {
+  resetAnswers() {
     this._answers = (this._quiz.badge && this._quiz.badge.data.answers) || {};
   },
 
   userHasVoted() {
-    return !!(this._user && this._quiz && this._quiz.badge);
+    return !!this._user && all(this._quiz.questions, (q) => {
+      return this._answers[q.ref] != null;
+    });
   },
 
   getQuestionsStats() {
@@ -120,18 +123,22 @@ assign(Engine.prototype, EventEmitter.prototype, {
   selectAnswer(questionRef, answerRef) {
     let previousAnswerRef = this._answers[questionRef];
 
-    if (previousAnswerRef === answerRef) {
-      return;
-    }
+    if (previousAnswerRef === answerRef) { return; }
 
     this._answers[questionRef] = answerRef;
 
+    // Optimistic update of the answer distribution.
     if (previousAnswerRef != null) {
       this._questionsStats[questionRef][previousAnswerRef] -= 1;
     }
     this._questionsStats[questionRef][answerRef] += 1;
 
     this.emitChange();
+
+    // Submit the answers automaticaly if there is only one question.
+    if (this._quiz.questions.length === 1) {
+      this.submitAnswers();
+    }
   },
 
   submitAnswers() {
