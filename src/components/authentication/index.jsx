@@ -10,6 +10,24 @@ import Form from '../form';
 export default React.createClass({
   displayName: 'Authentication',
 
+  getInitialState() {
+    return {
+      activeForm: this.props.activeForm
+    };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.activeForm != null) {
+      this.setState({ activeForm: nextProps.activateForm });
+    }
+  },
+
+  activateForm(activeForm, e) {
+    e.preventDefault();
+
+    this.setState({ activeForm });
+  },
+
   renderButtons() {
     let buttons = map(this.props.providers, ({ name }) => {
       let handleClick = this.props.logIn.bind(null, name);
@@ -18,6 +36,10 @@ export default React.createClass({
         <button key={name} onClick={handleClick}>{name}</button>
       );
     });
+
+    buttons.push(
+      <button key='email' onClick={this.activateForm.bind(this, 'logIn')}>Email</button>
+    );
 
     return buttons;
   },
@@ -50,7 +72,9 @@ export default React.createClass({
     let m = 'Log in';
     let d = false;
 
-    return <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.logIn} disabled={d} />;
+    return (
+      <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.logIn} disabled={d} />
+    );
   },
 
   renderSignUpForm() {
@@ -88,7 +112,9 @@ export default React.createClass({
     let m = 'Sign up';
     let d = false;
 
-    return <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.signUp} disabled={d} />;
+    return (
+      <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.signUp} disabled={d} />
+    );
   },
 
   renderResetPasswordForm() {
@@ -107,7 +133,23 @@ export default React.createClass({
     let m = 'Send reset instructions';
     let d = false;
 
-    return <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.resetPassword} disabled={d} />;
+    return (
+      <Form type={type} fields={fields} submitMessage={m} onSubmit={this.props.resetPassword} disabled={d} />
+    );
+  },
+
+  renderActiveForm() {
+    let { activeForm } = this.state;
+
+    if (activeForm == null) { return null; }
+
+    if (activeForm === 'logIn') {
+      return this.renderLogInForm();
+    } else if (activeForm === 'signUp') {
+      return this.renderSignUpForm();
+    } else if (activeForm === 'resetPassword') {
+      return this.renderResetPasswordForm();
+    }
   },
 
   render() {
@@ -115,11 +157,13 @@ export default React.createClass({
       <div>
         {this.renderButtons()}
         <hr />
-        {this.renderSignUpForm()}
+        {this.renderActiveForm()}
         <hr />
-        {this.renderLogInForm()}
-        <hr />
-        {this.renderResetPasswordForm()}
+        <a href='javascript: void 0;' onClick={this.activateForm.bind(this, 'logIn')}>log in</a>
+        {' '}
+        <a href='javascript: void 0;' onClick={this.activateForm.bind(this, 'signUp')}>sign up</a>
+        {' '}
+        <a href='javascript: void 0;' onClick={this.activateForm.bind(this, 'resetPassword')}>reset password</a>
       </div>
     );
   }
