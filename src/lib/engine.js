@@ -1,3 +1,5 @@
+'use strict';
+
 import assign from 'object-assign';
 import reduce from 'lodash/collection/reduce';
 import all from 'lodash/collection/all';
@@ -17,6 +19,10 @@ function Engine(deployment) {
   this._settings = deployment.settings;
   this._organization = deployment.organization;
   this._quiz = this._ship.resources.quiz;
+
+  if (this._quiz == null) {
+    throw new Error('Quiz resource is missing.');
+  }
 
   this.resetState();
 }
