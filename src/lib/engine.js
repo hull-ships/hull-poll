@@ -8,9 +8,17 @@ import { EventEmitter } from 'events';
 
 const EVENT = 'CHANGE';
 
+const METHODS = {
+  login: 'logIn',
+  signup: 'signUp'
+};
+
 const ACTIONS = [
   'selectAnswer',
-  'submitAnswers'
+  'submitAnswers',
+  'signUp',
+  'logIn',
+  'resetPassword'
 ];
 
 function Engine(deployment) {
@@ -18,13 +26,15 @@ function Engine(deployment) {
   this._platform = deployment.platform;
   this._settings = deployment.settings;
   this._organization = deployment.organization;
-  this._quiz = this._ship.resources.quiz;
-
-  if (this._quiz == null) {
-    throw new Error('Quiz resource is missing.');
-  }
-
   this.resetState();
+
+  Hull.on('hull.user.**', (user) => {
+    // Ignore the events that come from actions.
+    let nextUser = user || {};
+    let previousUser = this._user || {};
+
+    if (nextUser.id !== previousUser.id) { this.fetchShip(); }
+  });
 }
 
 assign(Engine.prototype, EventEmitter.prototype, {
@@ -46,7 +56,9 @@ assign(Engine.prototype, EventEmitter.prototype, {
       activeSection: this.getActiveSection(),
       quiz: this._quiz,
       answers: this._answers,
-      questionsStats: this.getQuestionsStats()
+      questionsStats: this.getQuestionsStats(),
+      errors: this._errors,
+      providers: this.getProviders()
     };
   },
 
@@ -63,6 +75,14 @@ assign(Engine.prototype, EventEmitter.prototype, {
   },
 
   resetState() {
+    this._quiz = this._ship.resources.quiz;
+
+    if (this._quiz == null) {
+      throw new Error('Quiz resource is missing.');
+    }
+
+    this._errors = {};
+
     this.resetUser();
     this.resetQuestionsStats();
     this.resetAnswers();
@@ -126,6 +146,24 @@ assign(Engine.prototype, EventEmitter.prototype, {
     return 'vote';
   },
 
+  getProviders() {
+    let providers = [];
+
+    let services = Hull.config().services.auth;
+
+    for (let k in services) {
+      if (services.hasOwnProperty(k) && k !== 'hull') {
+        let provider = { name: k };
+        provider.isLinked = !!this._identities[k];
+        provider.isUnlinkable = provider.isLinked && this._user.main_identity !== k;
+
+        providers.push(provider);
+      }
+    }
+
+    return providers;
+  },
+
   selectAnswer(questionRef, answerRef) {
     let previousAnswerRef = this._answers[questionRef];
 
@@ -150,6 +188,75 @@ assign(Engine.prototype, EventEmitter.prototype, {
   submitAnswers() {
     Hull.api(this._quiz.id + '/achieve', 'post', { answers: this._answers }, (r) => {
       this._quiz.badge = r;
+
+      this.emitChange();
+    });
+  },
+
+  signUp(credentials) {
+    return this.perform('signup', credentials).then(() => {
+      return this.fetchShip();
+    });
+  },
+
+  logIn(providerOrCredentials) {
+    return this.perform('login', providerOrCredentials).then(() => {
+      return this.fetchShip();
+    });
+  },
+
+  resetPassword(email) {
+    let d = typeof email === 'string' ? { email } : email;
+    let r = Hull.api('/users/request_password_reset', 'post', d);
+
+    r.catch((error) => {
+      this._errors.resetPassword = error;
+
+      this.emitChange();
+    });
+
+    return r;
+  },
+
+  perform(method, provider) {
+    let options;
+    if (typeof provider === 'string') {
+      options = { provider };
+    } else {
+      options = { ...provider };
+      provider = 'classic';
+    }
+
+    this._errors = {};
+
+    this.emitChange();
+
+    let promise = Hull[method](options);
+
+    promise.then(() => {
+      this._errors = {};
+
+      this.emitChange();
+    }, (error) => {
+      error.provider = provider;
+      let m = METHODS[method] || method;
+      this._errors[m] = error;
+
+      this.emitChange();
+    });
+
+    return promise;
+  },
+
+  fetchShip() {
+    let id = (this._fetchShipPromiseId || 0) + 1;
+    this._fetchShipPromiseId = id;
+
+    return Hull.api(this._ship.id).then((ship) => {
+      if (id !== this._fetchShipPromiseId) { return; }
+
+      this._ship = ship;
+      this.resetState();
 
       this.emitChange();
     });

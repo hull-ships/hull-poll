@@ -4,7 +4,8 @@
     "browser": true
   },
   "globals": {
-    "Hull": true
+    "Hull": true,
+    "__DEV__": true
   },
   "rules": {
     "camelcase": [2, { "properties": "never" }],

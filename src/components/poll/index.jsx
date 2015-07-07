@@ -2,8 +2,10 @@
 
 import React from 'react';
 import map from 'lodash/collection/map';
+import { translate } from '../../lib/i18n';
 import styles from '../../styles/all.css';
 import getClassName from '../../lib/get-class-name';
+import Authentication from '../authentication';
 
 const cx = getClassName.bind(null, styles, 'hull');
 
@@ -11,7 +13,7 @@ export default React.createClass({
   displayName: 'Poll',
 
   renderLogIn() {
-    return <h1>Log In</h1>;
+    return <Authentication {...this.props} />;
   },
 
   renderQuestion(question) {
@@ -22,11 +24,16 @@ export default React.createClass({
     let { total, answersStats } = this.props.questionsStats[question.ref];
 
     let answers = map(question.answers, (a) => {
-      let p = 0;
+      let percentage = 0;
       let meta;
       if (isResultsSection) {
-        p = Math.round((answersStats[a.ref] / total) * 100);
-        meta = <p className={cx('answer__meta')}>{p}% ({answersStats[a.ref]} votes)</p>;
+        percentage = Math.round((answersStats[a.ref] / total) * 100);
+
+        let m = translate('{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})', {
+          percentage,
+          votes: answersStats[a.ref]
+        });
+        meta = <p className={cx('answer__meta')}>{m}</p>;
       }
 
       let classes = cx({
@@ -42,7 +49,7 @@ export default React.createClass({
             {meta}
             <h2 className={cx('answer__name')}>{a.name}</h2>
           </div>
-          <div className={cx('answer__bar')} style={{ width: `${p}%` }}></div>
+          <div className={cx('answer__bar')} style={{ width: `${percentage}%` }}></div>
         </div>
       );
     });

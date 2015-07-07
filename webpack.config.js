@@ -33,9 +33,12 @@ module.exports = {
       node: {
         fs: "empty"
       },
-      module   : {loaders: config.loaders},
-      plugins:  config.plugins.concat([
-        new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('development') } })
+      module: { loaders: config.loaders },
+      plugins: config.plugins.concat([
+        new webpack.DefinePlugin({
+          'process.env': { 'NODE_ENV': JSON.stringify('development') },
+          __DEV__: true
+        })
       ]).concat(devPlugins)
     }
   },
@@ -53,7 +56,10 @@ module.exports = {
       },
       module  : {loaders: config.loaders},
       plugins : config.plugins.concat([
-        new webpack.DefinePlugin({'process.env': {'NODE_ENV': JSON.stringify('production') } }),
+        new webpack.DefinePlugin({
+          'process.env': { 'NODE_ENV': JSON.stringify('production') },
+          __DEV__: false
+        }),
         new webpack.optimize.UglifyJsPlugin({
           comments: false,
           minimize:true,

@@ -1,1 +1,3 @@
-{}
+{
+  "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})": "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})"
+}

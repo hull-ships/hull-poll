@@ -31,7 +31,7 @@ function translate(message, data) {
   let m = _messages[message];
 
   if (m == null) {
-    console.warn('[i18n] "' + message + '". is missing in "' + _locale + '.json".'); // eslint-disable-line
+    console.warn('[i18n] "' + message + '". is missing in "' + _locale + '".'); // eslint-disable-line
 
     let mf = new MessageFormat(_locale);
     m = _messages[message] = mf.compile(message);
