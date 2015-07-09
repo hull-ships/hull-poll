@@ -25,7 +25,7 @@ export default React.createClass({
     let description;
     let content;
     if (this.props.activeSection === 'logIn') {
-      description = <p className={cx('question__description')}>Please log in to vote.</p>;
+      description = <p className={cx('question__description')}>{translate('Please log in or sign up to participate')}</p>;
       content = <Authentication {...this.props} />;
     } else {
       let answers = map(question.answers, (a) => {
