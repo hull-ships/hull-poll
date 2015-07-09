@@ -2,7 +2,10 @@
 
 import React from 'react';
 import t from './t';
+import styles from '../../styles/all.css';
+import getClassName from '../../lib/get-class-name';
 
+const cx = getClassName.bind(null, styles, 'hull');
 const TCombForm = t.form.Form;
 
 export default React.createClass({
@@ -33,9 +36,13 @@ export default React.createClass({
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <TCombForm ref='form' type={this.props.type} options={this.getOptions()} value={this.state.value} onChange={this.handleChange} />
-        <button type='submit' kind='primary' block={true} disabled={!!this.props.disabled}>{this.props.submitMessage}</button>
+      <form className={cx('form')} onSubmit={this.handleSubmit}>
+        <div className={cx('form__content')}>
+          <TCombForm ref='form' type={this.props.type} options={this.getOptions()} value={this.state.value} onChange={this.handleChange} />
+        </div>
+        <div className={cx('form__footer')}>
+          <button className={cx('btn btn--block')} type='submit' disabled={!!this.props.disabled}>{this.props.submitMessage}</button>
+        </div>
       </form>
     );
   }

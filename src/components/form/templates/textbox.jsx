@@ -1,6 +1,10 @@
 'use strict';
 
 import React from 'react';
+import styles from '../../../styles/all.css';
+import getClassName from '../../../lib/get-class-name';
+
+const cx = getClassName.bind(null, styles, 'hull');
 
 export default React.createClass({
   displayName: 'Textbox',
@@ -14,6 +18,7 @@ export default React.createClass({
 
     return node({
       ...this.props.attrs,
+      className: cx('formInput formInput--textbox'),
       onChange: this.handleChange
     });
   }
