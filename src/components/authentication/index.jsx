@@ -208,7 +208,7 @@ export default React.createClass({
       form = this.renderResetPasswordForm();
     }
 
-    let footer = activeForm !== 'signUp' && <p className={cx('authentication__footer')}><a href='javascript: void 0;' onClick={this.activateForm.bind(this, 'resetPassword')}>Forgot password?</a></p>;
+    let footer = activeForm === 'logIn' && <p className={cx('authentication__footer')}><a href='javascript: void 0;' onClick={this.activateForm.bind(this, 'resetPassword')}>Forgot password?</a></p>;
     return (
       <div className={cx('authentication__form')}>
         <div className={cx('nav')}>
