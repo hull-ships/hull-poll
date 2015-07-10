@@ -12,9 +12,6 @@ const cx = getClassName.bind(null, styles, 'hull');
 export default React.createClass({
   displayName: 'Poll',
 
-  renderLogIn() {
-  },
-
   renderQuestion(question) {
     let isVoteSection = this.props.activeSection === 'vote';
     let isResultsSection = this.props.activeSection === 'results';
