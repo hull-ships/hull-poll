@@ -1,0 +1,122 @@
+{
+  "name": "Poll",
+  "description": "poll",
+  "picture": "picture.png",
+  "index": "ship.js",
+  "version": "0.0.1",
+  "settings": [
+    {
+      "name": "background_image",
+      "title": "Background image",
+      "type": "string",
+      "format": "image"
+    },
+    {
+      "name": "background_image_opacity",
+      "title": "Background image opacity",
+      "type": "number",
+      "format": "range",
+      "default": 0.8,
+      "maximum": 1,
+      "minimum": 0,
+      "multipleOf": 0.1
+    },
+    {
+      "name": "background_color",
+      "title": "Background color",
+      "type": "string",
+      "format": "color",
+      "default": "#000000"
+    },
+    {
+      "name": "main_color",
+      "title": "main color",
+      "type": "string",
+      "format": "color",
+      "default": "#ffffff"
+    },
+    {
+      "name": "accent_color",
+      "title": "Accent color",
+      "type": "string",
+      "format": "color",
+      "default": "#0DBCE5"
+    },
+    {
+      "name": "button_text_color",
+      "title": "Button text color",
+      "type": "string",
+      "format": "color",
+      "default": "#ffffff"
+    },
+    {
+      "name": "sharing",
+      "title": "Sharing Options",
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "title": "Share URL",
+          "description": "URL to share"
+        },
+        "facebook": {
+          "type": "object",
+          "title": "Facebook",
+          "properties": {
+            "display": {
+              "type": "boolean",
+              "default": true,
+              "title": "Display Facebook share button"
+            },
+            "button_text": {
+              "type": "string",
+              "default": "Share on Facebook",
+              "title": "Button Text"
+            }
+          }
+        },
+        "twitter": {
+          "type": "object",
+          "title": "Twitter",
+          "properties": {
+            "display": {
+              "type": "boolean",
+              "default": true,
+              "title": "Display Twitter share button"
+            },
+            "button_text": {
+              "type": "string",
+              "default": "Share on Twitter",
+              "title": "Button text"
+            },
+            "text": {
+              "type": "string",
+              "title": "Default tweet",
+              "maxLength": 118
+            },
+            "hashtags": {
+              "type": "string",
+              "title": "Hashtags",
+              "description": "Allow easy discovery of Tweets by topic by including a comma-separated list of hashtag values without the preceding # character."
+            },
+            "via": {
+              "type": "string",
+              "title": "Via",
+              "description": "A Twitter username to associate with the Tweet, such as your site's Twitter account. The provided username will be appended to the end of the Tweet with the text 'via @username'."
+            }
+          }
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "name": "quiz",
+      "type": "quiz"
+    }
+  ],
+  "locales": [
+    "en"
+  ]
+}
