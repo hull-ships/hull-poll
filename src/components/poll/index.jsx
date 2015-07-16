@@ -19,12 +19,12 @@ function parseSelector(selector) {
 }
 
 function renderStyles(ship) {
-  let s = ship.settings;
+  let { settings } = ship;
 
-  let mainColor = color(s.main_color);
-  let accentColor = color(s.accent_color);
-  let backgroundColor = color(s.background_color);
-  let buttonTextColor = color(s.button_text_color);
+  let mainColor = color(settings.main_color);
+  let accentColor = color(settings.accent_color);
+  let backgroundColor = color(settings.background_color);
+  let buttonTextColor = color(settings.button_text_color);
 
   let rules = {
     '.poll': {
@@ -41,8 +41,8 @@ function renderStyles(ship) {
       backgroundImage: `linear-gradient(to bottom, ${backgroundColor.alpha(0).rgbString()} 60%, ${backgroundColor.rgbString()} 100%)`
     },
     '.poll__content::after': {
-      backgroundImage: `url(${s.background_image})`,
-      opacity: s.background_image_opacity
+      backgroundImage: `url(${settings.background_image})`,
+      opacity: settings.background_image_opacity
     },
     '.btn--primary': {
       backgroundColor: accentColor.rgbString(),
