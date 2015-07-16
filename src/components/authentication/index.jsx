@@ -65,6 +65,14 @@ export default React.createClass({
     }
   },
 
+  toggleForm(e) {
+    e.preventDefault();
+
+    this.setState({
+      activeForm: this.state.activeForm == null ? 'logIn' : null
+    });
+  },
+
   activateForm(activeForm, e) {
     e.preventDefault();
 
@@ -83,7 +91,7 @@ export default React.createClass({
     });
 
     buttons.push(
-      <button key='email' className={cx(`btn btn--primary btn--email btn--silent`)} onClick={this.activateForm.bind(this, 'logIn')}>
+      <button key='email' className={cx(`btn btn--primary btn--email btn--silent`)} onClick={this.toggleForm}>
         <ICONS.email size={14} />
       </button>
     );
