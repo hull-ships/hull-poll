@@ -2,12 +2,83 @@
 
 import React from 'react';
 import map from 'lodash/collection/map';
+import each from 'lodash/collection/each';
+import color from 'color';
+import { createMarkupForStyles } from 'react/lib/CSSPropertyOperations';
 import { translate } from '../../lib/i18n';
 import styles from '../../styles/all.css';
 import getClassName from '../../lib/get-class-name';
 import Authentication from '../authentication';
 
 const cx = getClassName.bind(null, styles, 'hull');
+
+function parseSelector(selector) {
+  return selector.replace(/\.([a-z-_]*)/g, (_, capture) => {
+    return `.${styles[capture] || capture}`;
+  });
+}
+
+function renderStyles() {
+  let textColor = color('#fff');
+  let mainColor = color('blue');
+
+  let backgroundColor = color('#000');
+  let backgroundImageUrl = 'http://www.fubiz.net/wp-content/uploads/2015/07/hammada-1-900x879.jpg';
+
+  let buttonTextColor = color('#0f0');
+
+  let rules = {
+    '.poll': {
+      background: backgroundColor.rgbString(),
+      color: textColor.alpha(0.6).rgbString()
+    },
+    '.poll a': {
+      color: textColor.alpha(0.6).rgbString()
+    },
+    '.poll a:hover, .poll a:focus': {
+      color: textColor.alpha(0.8).rgbString()
+    },
+    '.poll__content': {
+      backgroundImage: `linear-gradient(to bottom, ${backgroundColor.alpha(0).rgbString()} 60%, ${backgroundColor.rgbString()} 100%)`
+    },
+    '.poll__content::after': {
+      backgroundImage: `url(${backgroundImageUrl})`
+    },
+    '.btn--primary': {
+      backgroundColor: mainColor.rgbString(),
+      color: buttonTextColor.rgbString()
+    },
+    '.question__name, .nav__item--active, a.nav__item--active, .nav__item--active:hover, a.nav__item--active:hover': {
+      color: textColor.alpha(1).rgbString()
+    },
+    '.answer': {
+      backgroundColor: textColor.alpha(0.05).rgbString(),
+      boxShadow: `inset 0 0 0 1px ${textColor.alpha(0.2).rgbString()}`
+    },
+    '.answer--hoverable:hover': {
+      backgroundColor: textColor.alpha(0.2).rgbString()
+    },
+    '.answer__name': {
+      color: textColor.alpha(1).rgbString()
+    },
+    '.answer__bar': {
+      backgroundColor: textColor.alpha(0.2).rgbString()
+    },
+    '.answer--selected .answer__bar': {
+      backgroundColor: mainColor.alpha(1).rgbString()
+    }
+  };
+
+  let m = '';
+  each(rules, (s, selector) => {
+    m += `${parseSelector(selector)} {`;
+    m += createMarkupForStyles(s);
+    m += '}';
+    m += '\n\n';
+  });
+
+  return <style>{m}</style>;
+}
 
 export default React.createClass({
   displayName: 'Poll',
@@ -72,6 +143,7 @@ export default React.createClass({
   render() {
     return (
       <div className={cx('poll')}>
+        {renderStyles()}
         <div className={cx('poll__content')}>{this.props.quiz.questions.map(this.renderQuestion)}</div>
       </div>
     );

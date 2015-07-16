@@ -41,7 +41,7 @@ export default React.createClass({
           <TCombForm ref='form' type={this.props.type} options={this.getOptions()} value={this.state.value} onChange={this.handleChange} />
         </div>
         <div className={cx('form__footer')}>
-          <button className={cx('btn btn--block')} type='submit' disabled={!!this.props.disabled}>{this.props.submitMessage}</button>
+          <button className={cx('btn btn--primary btn--block')} type='submit' disabled={!!this.props.disabled}>{this.props.submitMessage}</button>
         </div>
       </form>
     );

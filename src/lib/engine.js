@@ -114,7 +114,7 @@ assign(Engine.prototype, EventEmitter.prototype, {
   },
 
   resetAnswers() {
-    this._answers = {}; // (this._quiz.badge && this._quiz.badge.data.answers) || {};
+    this._answers = (this._quiz.badge && this._quiz.badge.data.answers) || {};
   },
 
   userHasVoted() {

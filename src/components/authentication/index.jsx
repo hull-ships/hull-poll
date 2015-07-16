@@ -83,7 +83,7 @@ export default React.createClass({
     });
 
     buttons.push(
-      <button key='email' className={cx(`btn btn--email btn--silent`)} onClick={this.activateForm.bind(this, 'logIn')}>
+      <button key='email' className={cx(`btn btn--primary btn--email btn--silent`)} onClick={this.activateForm.bind(this, 'logIn')}>
         <ICONS.email size={14} />
       </button>
     );

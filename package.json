@@ -29,6 +29,7 @@
   ],
   "dependencies": {
     "babel-runtime": "^5.6.5",
+    "color": "^0.10.1",
     "css-loader": "^0.15.1",
     "lodash": "^3.10.0",
     "messageformat": "^0.2.2",

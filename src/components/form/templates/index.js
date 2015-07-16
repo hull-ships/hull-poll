@@ -17,7 +17,7 @@ function render(Component, locals) {
 export default {
   struct(locals) {
     let controls = map(locals.order, function(n) {
-      return <div key={locals.inputs[n].key} className={cx('formControl')}>{locals.inputs[n]}</div>;
+      return <div key={locals.inputs[n].key} className={cx('form__control')}>{locals.inputs[n]}</div>;
     });
 
     return <div>{controls}</div>;
