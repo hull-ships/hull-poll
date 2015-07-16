@@ -54,6 +54,7 @@ assign(Engine.prototype, EventEmitter.prototype, {
       user: this._user,
       userHasVoted: this.userHasVoted(),
       activeSection: this.getActiveSection(),
+      ship: this._ship,
       quiz: this._quiz,
       answers: this._answers,
       questionsStats: this.getQuestionsStats(),

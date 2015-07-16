@@ -22,16 +22,6 @@
       "multipleOf": 0.1
     },
     {
-      "name": "background_image_blur",
-      "title": "Background image blur",
-      "type": "number",
-      "format": "range",
-      "default": 0.1,
-      "maximum": 10,
-      "minimum": 0,
-      "multipleOf": 0.1
-    },
-    {
       "name": "background_color",
       "title": "Background color",
       "type": "string",
@@ -39,18 +29,18 @@
       "default": "#000000"
     },
     {
-      "name": "text_color",
-      "title": "text color",
+      "name": "main_color",
+      "title": "main color",
       "type": "string",
       "format": "color",
       "default": "#ffffff"
     },
     {
-      "name": "button_background_color",
-      "title": "Button background color",
+      "name": "accent_color",
+      "title": "Accent color",
       "type": "string",
       "format": "color",
-      "default": "#f39001"
+      "default": "#0DBCE5"
     },
     {
       "name": "button_text_color",

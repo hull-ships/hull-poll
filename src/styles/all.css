@@ -1,5 +1,4 @@
 .poll {
-  /* Settings background, color */
 	font-family: "Helvetica Neue",Helvetica,Roboto,Arial,sans-serif;
 	font-size: 14px;
 	line-height: 1.6;
@@ -28,8 +27,7 @@
 }
 
 .poll__content {
-	/* settings: background */
-	min-height: 400px;
+	min-height: 402px;
   padding: 30px;
   margin: 0;
   box-sizing: border-box;
@@ -39,23 +37,19 @@
 }
 
 .poll__content::after {
-  /* SETTINGS: filter, opacity, background */
   content: "";
   background: url(http://bewaremag.com/wp-content/uploads/2015/05/jonasunger_JUGD01-720x957.jpg);
   background-position: center center;
   background-size: cover;
-  opacity: 0.5;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: absolute;
   z-index: -1;
-  filter: blur(10px);
 }
 
 .question__name {
-  /* SETTINGS COLOR */
   color: #fff;
   font-size: 24;
   font-weight: 300;
@@ -241,7 +235,7 @@
 
 .formInput {
 	width: 100%;
-  padding: 6px 10px;
+  padding: 7px 10px;
   font-size: 14px;
   line-height: 1.6;
   -webkit-appearance: none;

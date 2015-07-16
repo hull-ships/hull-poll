@@ -18,54 +18,54 @@ function parseSelector(selector) {
   });
 }
 
-function renderStyles() {
-  let textColor = color('#fff');
-  let mainColor = color('blue');
+function renderStyles(ship) {
+  let s = ship.settings;
 
-  let backgroundColor = color('#000');
-  let backgroundImageUrl = 'http://www.fubiz.net/wp-content/uploads/2015/07/hammada-1-900x879.jpg';
-
-  let buttonTextColor = color('#0f0');
+  let mainColor = color(s.main_color);
+  let accentColor = color(s.accent_color);
+  let backgroundColor = color(s.background_color);
+  let buttonTextColor = color(s.button_text_color);
 
   let rules = {
     '.poll': {
       background: backgroundColor.rgbString(),
-      color: textColor.alpha(0.6).rgbString()
+      color: mainColor.alpha(0.6).rgbString()
     },
     '.poll a': {
-      color: textColor.alpha(0.6).rgbString()
+      color: mainColor.alpha(0.6).rgbString()
     },
     '.poll a:hover, .poll a:focus': {
-      color: textColor.alpha(0.8).rgbString()
+      color: mainColor.alpha(0.8).rgbString()
     },
     '.poll__content': {
       backgroundImage: `linear-gradient(to bottom, ${backgroundColor.alpha(0).rgbString()} 60%, ${backgroundColor.rgbString()} 100%)`
     },
     '.poll__content::after': {
-      backgroundImage: `url(${backgroundImageUrl})`
+      backgroundImage: `url(${s.background_image})`,
+      opacity: s.background_image_opacity
     },
     '.btn--primary': {
-      backgroundColor: mainColor.rgbString(),
+      backgroundColor: accentColor.rgbString(),
       color: buttonTextColor.rgbString()
     },
     '.question__name, .nav__item--active, a.nav__item--active, .nav__item--active:hover, a.nav__item--active:hover': {
-      color: textColor.alpha(1).rgbString()
+      color: mainColor.alpha(1).rgbString()
     },
     '.answer': {
-      backgroundColor: textColor.alpha(0.05).rgbString(),
-      boxShadow: `inset 0 0 0 1px ${textColor.alpha(0.2).rgbString()}`
+      backgroundColor: mainColor.alpha(0.05).rgbString(),
+      boxShadow: `inset 0 0 0 1px ${mainColor.alpha(0.2).rgbString()}`
     },
     '.answer--hoverable:hover': {
-      backgroundColor: textColor.alpha(0.2).rgbString()
+      backgroundColor: mainColor.alpha(0.2).rgbString()
     },
     '.answer__name': {
-      color: textColor.alpha(1).rgbString()
+      color: mainColor.alpha(1).rgbString()
     },
     '.answer__bar': {
-      backgroundColor: textColor.alpha(0.2).rgbString()
+      backgroundColor: mainColor.alpha(0.2).rgbString()
     },
     '.answer--selected .answer__bar': {
-      backgroundColor: mainColor.alpha(1).rgbString()
+      backgroundColor: accentColor.alpha(1).rgbString()
     }
   };
 
@@ -142,10 +142,13 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={cx('poll')}>
-        {renderStyles()}
-        <div className={cx('poll__content')}>{this.props.quiz.questions.map(this.renderQuestion)}</div>
-      </div>
+      <span>
+        {renderStyles(this.props.ship)}
+
+        <div className={cx('poll')}>
+          <div className={cx('poll__content')}>{this.props.quiz.questions.map(this.renderQuestion)}</div>
+        </div>
+      </span>
     );
   }
 });
