@@ -49,8 +49,8 @@
   z-index: -1;
 }
 
-.poll__questions .question {
-	margin-bottom: 30px;
+.poll__questions .question + .question {
+	margin: 30px 0 0 0;
 }
 
 .question__name {

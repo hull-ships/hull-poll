@@ -80,7 +80,16 @@ export default React.createClass({
       return this.renderQuestion(this.props.quiz.questions[0]);
     }
 
-    let button = this.props.activeSection === 'vote' && <button className={cx('btn btn--primary btn--block')} type='button' disabled={!this.props.userHasVoted} onClick={this.props.submitAnswers}>{translate('Submit answers')}</button>;
+    let button;
+    if (this.props.activeSection === 'vote') {
+      button = (
+        <div className={cx('question')}>
+          <button className={cx('btn btn--primary btn--block')} type='button' disabled={!this.props.userHasVoted} onClick={this.props.submitAnswers}>
+            {translate('Submit answers')}
+          </button>
+        </div>
+      );
+    }
     return (
       <div className={cx('poll__questions')}>
         {map(this.props.quiz.questions, this.renderQuestion)}
