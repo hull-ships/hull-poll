@@ -116,6 +116,7 @@ assign(Engine.prototype, EventEmitter.prototype, {
 
   resetAnswers() {
     this._answers = (this._quiz.badge && this._quiz.badge.data.answers) || {};
+    this._quizIsSubmited = this.userHasVoted();
   },
 
   userHasVoted() {
@@ -140,7 +141,7 @@ assign(Engine.prototype, EventEmitter.prototype, {
       return 'logIn';
     }
 
-    if (this.userHasVoted()) {
+    if (this._quizIsSubmited) {
       return 'results';
     }
 
@@ -187,6 +188,10 @@ assign(Engine.prototype, EventEmitter.prototype, {
   },
 
   submitAnswers() {
+    this._quizIsSubmited = true;
+
+    this.emitChange();
+
     Hull.api(this._quiz.id + '/achieve', 'post', { answers: this._answers }, (r) => {
       this._quiz.badge = r;
 

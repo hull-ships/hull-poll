@@ -124,7 +124,7 @@ export default React.createClass({
       }
     };
 
-    let m = 'Log in';
+    let m = translate('Log in');
     let d = false;
 
     return (
@@ -164,7 +164,7 @@ export default React.createClass({
       }
     };
 
-    let m = 'Sign up';
+    let m = translate('Sign up');
     let d = false;
 
     return (
@@ -185,7 +185,7 @@ export default React.createClass({
       }
     };
 
-    let m = 'Send reset instructions';
+    let m = translate('Send reset instructions');
     let d = false;
 
     return (
@@ -220,8 +220,8 @@ export default React.createClass({
     return (
       <div className={cx('authentication__form')}>
         <div className={cx('nav')}>
-          {this.renderNavLink('logIn', 'Log in')}
-          {this.renderNavLink('signUp', 'Sign up')}
+          {this.renderNavLink('logIn', translate('Log in'))}
+          {this.renderNavLink('signUp', translate('Sign up'))}
         </div>
         {form}
         {footer}

@@ -49,7 +49,7 @@ function renderCustomStyles(ship) {
       backgroundColor: mainColor.alpha(0.05).rgbString(),
       boxShadow: `inset 0 0 0 1px ${mainColor.alpha(0.2).rgbString()}`
     },
-    '.answer--hoverable:hover': {
+    '.answer--hoverable:hover, .answer--selected': {
       backgroundColor: mainColor.alpha(0.2).rgbString()
     },
     '.answer__name': {
