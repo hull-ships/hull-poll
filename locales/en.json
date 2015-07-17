@@ -1,3 +1,13 @@
 {
-  "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})": "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})"
+  "Please log in or sign up!": "Please log in or sign up!",
+  "An account is required to participate": "An account is required to participate",
+  "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})": "{percentage}% ({votes, plural, =0 {No vote} =1 {One vote} other {# votes}})",
+  "Submit answers": "Submit answers",
+  "Your email or username": "Your email or username",
+  "Your password": "Your password",
+  "Your name": "Your name",
+  "Your email": "Your email",
+  "Log in": "Log in",
+  "Sign up": "Sign up",
+  "Send reset instructions": "Send reset instructions"
 }
