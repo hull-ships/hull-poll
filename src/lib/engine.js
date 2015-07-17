@@ -29,7 +29,6 @@ function Engine(deployment) {
   this.resetState();
 
   Hull.on('hull.user.**', (user) => {
-    // Ignore the events that come from actions.
     let nextUser = user || {};
     let previousUser = this._user || {};
 
