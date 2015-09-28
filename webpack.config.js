@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash');
 var path = require('path');
 var webpack = require('webpack');
 var config = require('./config');
