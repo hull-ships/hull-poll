@@ -8,6 +8,13 @@ function boostrap(element, deployment) {
 
   setTranslations(deployment.ship.translations);
 
+  if (deployment.onUpdate && typeof deployment.onUpdate === 'function') {
+    deployment.onUpdate(function(ship) {
+      setTranslations(ship.translations);
+      engine.updateShip(ship);
+    });
+  }
+
   React.render(<Root engine={engine} actions={engine.getActions()} />, element);
 }
 

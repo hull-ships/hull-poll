@@ -74,6 +74,11 @@ assign(Engine.prototype, EventEmitter.prototype, {
     this.emit(EVENT);
   },
 
+  updateShip: function(ship) {
+    this._ship = ship;
+    this.emitChange();
+  },
+
   resetState() {
     this._quiz = this._ship.resources.quiz;
 
