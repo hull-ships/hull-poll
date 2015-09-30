@@ -16,6 +16,9 @@ var ngrok = require('ngrok');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 
+var git = require('git-rev-sync');
+var pkg = require('./package.json');
+
 
 // Get our Config.
 var config = require('./config');
@@ -167,8 +170,12 @@ gulp.task('webpack:server', function() {
 
 // Deploy production bundle to gh-pages.
 gulp.task('gh:deploy', function(callback) {
+  var basePath = path.join(process.cwd(), config.outputFolder);
+  var options = {
+    message: 'Deployed version ' + pkg.version + ' - rev. ' + git.short()
+  };
   notify('Deploying ' + config.outputFolder + ' to Github Pages');
-  ghpages.publish(path.join(process.cwd(), config.outputFolder), callback);
+  ghpages.publish(basePath, options, callback);
 });
 
 gulp.task('lint', function() {
