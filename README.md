@@ -1,7 +1,7 @@
 Poll Ship
 =========
 
-WIP
+Poll you can embed in your site.
 
 ## Manifest URL
 
